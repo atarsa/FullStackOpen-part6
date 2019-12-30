@@ -7,7 +7,7 @@ import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
 
 import { createAnecdote } from './reducers/anecdoteReducer'
-import { success} from './reducers/notificationReducer'
+import { addAnecdoteNotification} from './reducers/notificationReducer'
 
 const reducer = combineReducers({
   ancecdotes: anecdoteReducer,
@@ -18,8 +18,9 @@ const store = createStore(reducer)
 
 
 store.subscribe(() => console.log(store.getState()))
-store.dispatch(success())
-store.dispatch(createAnecdote('That is new anecdote'))
+// store.dispatch(createAnecdote('That is new anecdote'))
+// store.dispatch(addAnecdoteNotification('That is new anecdote'))
+
 
 
 

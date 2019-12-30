@@ -7,9 +7,14 @@ const Notification = (props) => {
     padding: 10,
     borderWidth: 1
   }
+  const notification = props.store.getState().notification
+
+  if (notification === null){
+    return null
+  }
   return (
     <div style={style}>
-      {props.store.getState().notification}
+      {notification}
     </div>
   )
 }

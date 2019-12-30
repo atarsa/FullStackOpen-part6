@@ -1,13 +1,35 @@
-export const success = () => {
+// ==== ACTIIONS ====
+export const addAnecdoteNotification = (text) => {
   return {
-    type: 'SUCCESS',
-    message: 'Anecdote added successfully'
+    type: 'ADD_ANECDOTE',
+    message: `Anecdote "${text}" added successfully.`
   }
 }
 
-const notificationReducer = (state = 'Anecdote added', action) => {
+export const votedForNotification = (text) => {
+  return {
+    type: 'VOTE_ANECDOTE',
+    message: `You voted on "${text}" anecdote.`
+  }
+}
+
+export const hideNotification = () => {
+  return {
+    type: 'HIDE_NOTIFICATION',
+    message: null
+  }
+}
+
+
+// ==== REDUCER ====
+
+const notificationReducer = (state = null, action) => {
   switch (action.type) {
-    case 'SUCCESS':
+    case 'ADD_ANECDOTE':
+      return action.message
+    case 'VOTE_ANECDOTE':
+      return action.message
+    case 'HIDE_NOTIFICATION':
       return action.message
     default:
       return state
