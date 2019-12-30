@@ -3,16 +3,20 @@ import { connect } from 'react-redux'
 
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { addAnecdoteNotification, hideNotification } from '../reducers/notificationReducer'
+import anecdoteService from '../services/anecdotes'
 
-const AnecdoteForm = (props) => {
+const NewAnecdote = (props) => {
   
-  const addAnecdote = (event) => {
+  const addAnecdote =  async(event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    props.createAnecdote(content)
-    props.addAnecdoteNotification(content)
     event.target.anecdote.value = ''
-
+    
+    const newAnecdote = await anecdoteService.createNew(content)
+    props.createAnecdote(newAnecdote)
+    
+    props.addAnecdoteNotification(content)
+    
     // hide notification after 5 sec
     setTimeout(() => {
       props.hideNotification()
@@ -38,4 +42,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(AnecdoteForm)
+)(NewAnecdote)
