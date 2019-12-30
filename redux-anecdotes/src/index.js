@@ -1,10 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import App from './App'
-import reducer from './reducers/anecdoteReducer'
+
+import anecdoteReducer from './reducers/anecdoteReducer'
+import notificationReducer from './reducers/notificationReducer'
+
+import { createAnecdote } from './reducers/anecdoteReducer'
+import { success} from './reducers/notificationReducer'
+
+const reducer = combineReducers({
+  ancecdotes: anecdoteReducer,
+  notification: notificationReducer
+})
 
 const store = createStore(reducer)
+
+
+store.subscribe(() => console.log(store.getState()))
+store.dispatch(success())
+store.dispatch(createAnecdote('That is new anecdote'))
+
+
 
 const render = () => {
   ReactDOM.render(
