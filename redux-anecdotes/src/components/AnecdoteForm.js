@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { addAnecdoteNotification, hideNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 const NewAnecdote = (props) => {
   
@@ -12,8 +11,7 @@ const NewAnecdote = (props) => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     
-    const newAnecdote = await anecdoteService.createNew(content)
-    props.createAnecdote(newAnecdote)
+    props.createAnecdote(content)
     
     props.addAnecdoteNotification(content)
     
