@@ -1,31 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { voteFor } from '../reducers/anecdoteReducer'
 import { votedForNotification, hideNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = (props) => {
 
-  const { anecdotes, filter}  = props.store.getState()
- 
-  const anecdotesToShow = () => {
-    
-    if ( filter === 'ALL') {
-      return anecdotes
-    }
-    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter))
-  }
-
   const vote = (id, text) => {
-    props.store.dispatch(voteFor(id))
-    props.store.dispatch(votedForNotification(text))
+    props.voteFor(id)
+    props.votedForNotification(text)
     // hide notification after 5 sec
     setTimeout(() => {
-      props.store.dispatch(hideNotification())
+      props.hideNotification()
     }, 5000)
   }
 
   return (
-    anecdotesToShow().map(anecdote =>
+   props.visibleAnecdotes.map(anecdote =>
       <div key={anecdote.id}>
         <div>
           {anecdote.content}
@@ -39,4 +30,28 @@ const AnecdoteList = (props) => {
   )
 }
 
-export default AnecdoteList
+const anecdotesToShow = ({anecdotes, filter}) => {
+    
+  if ( filter === 'ALL') {
+    return anecdotes
+  }
+  return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter))
+}
+
+const mapStateToProps = (state) => {
+  return {
+    visibleAnecdotes: anecdotesToShow(state)
+  }
+}
+
+const mapDispatchToProps = {
+  voteFor,
+  votedForNotification,
+  hideNotification
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
